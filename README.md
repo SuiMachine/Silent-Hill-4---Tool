@@ -1,5 +1,5 @@
-Medal of Honor FOV Changer
+Silent Hill 4 - Tool
 ============
-This is my simple FOV Changer for Medal of Honor (2010).
+This is an early (and probably unfinished) version of my Silent Hill 4 tool, which can write to memory, where resolution values, fov and aspect ratio are located.
 
 PCGW: http://pcgamingwiki.com/wiki/User:Suicide_machine
