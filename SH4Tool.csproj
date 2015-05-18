@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FovChanger</RootNamespace>
-    <AssemblyName>MedalOfHonorFOVChanger</AssemblyName>
+    <AssemblyName>sh4tool</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Hitman.ico</ApplicationIcon>
+    <ApplicationIcon>we.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -82,7 +82,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Hitman.ico" />
+    <Content Include="we.ico" />
     <None Include="Resources\donatebutton.png" />
     <None Include="Resources\Bar.png" />
   </ItemGroup>

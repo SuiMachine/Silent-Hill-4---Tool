@@ -34,6 +34,7 @@
             this.LB_Running = new System.Windows.Forms.Label();
             this.C_EnableHack = new System.Windows.Forms.CheckBox();
             this.InputPanel = new System.Windows.Forms.Panel();
+            this.C_AutoCalculate = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.T_Aspect = new System.Windows.Forms.TextBox();
             this.B_setAspect = new System.Windows.Forms.Button();
@@ -70,7 +71,7 @@
             // C_EnableHack
             // 
             this.C_EnableHack.AutoSize = true;
-            this.C_EnableHack.Location = new System.Drawing.Point(14, 101);
+            this.C_EnableHack.Location = new System.Drawing.Point(14, 124);
             this.C_EnableHack.Name = "C_EnableHack";
             this.C_EnableHack.Size = new System.Drawing.Size(59, 17);
             this.C_EnableHack.TabIndex = 39;
@@ -81,6 +82,7 @@
             // InputPanel
             // 
             this.InputPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.InputPanel.Controls.Add(this.C_AutoCalculate);
             this.InputPanel.Controls.Add(this.label5);
             this.InputPanel.Controls.Add(this.T_Aspect);
             this.InputPanel.Controls.Add(this.B_setAspect);
@@ -95,11 +97,22 @@
             this.InputPanel.Controls.Add(this.DeveloperButton);
             this.InputPanel.Controls.Add(this.linkLabel);
             this.InputPanel.Controls.Add(this.C_EnableHack);
-            this.InputPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.InputPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.InputPanel.Location = new System.Drawing.Point(0, 24);
             this.InputPanel.Name = "InputPanel";
-            this.InputPanel.Size = new System.Drawing.Size(302, 162);
+            this.InputPanel.Size = new System.Drawing.Size(302, 195);
             this.InputPanel.TabIndex = 41;
+            // 
+            // C_AutoCalculate
+            // 
+            this.C_AutoCalculate.AutoSize = true;
+            this.C_AutoCalculate.Location = new System.Drawing.Point(14, 100);
+            this.C_AutoCalculate.Name = "C_AutoCalculate";
+            this.C_AutoCalculate.Size = new System.Drawing.Size(152, 17);
+            this.C_AutoCalculate.TabIndex = 56;
+            this.C_AutoCalculate.Text = "Auto-calculate aspect ratio";
+            this.C_AutoCalculate.UseVisualStyleBackColor = true;
+            this.C_AutoCalculate.CheckedChanged += new System.EventHandler(this.C_AutoCalculate_CheckedChanged);
             // 
             // label5
             // 
@@ -210,7 +223,7 @@
             // DeveloperButton
             // 
             this.DeveloperButton.Image = global::FovChanger.Properties.Resources.donatebutton;
-            this.DeveloperButton.Location = new System.Drawing.Point(156, 130);
+            this.DeveloperButton.Location = new System.Drawing.Point(156, 157);
             this.DeveloperButton.Name = "DeveloperButton";
             this.DeveloperButton.Size = new System.Drawing.Size(74, 21);
             this.DeveloperButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -221,7 +234,7 @@
             // linkLabel
             // 
             this.linkLabel.AutoSize = true;
-            this.linkLabel.Location = new System.Drawing.Point(20, 134);
+            this.linkLabel.Location = new System.Drawing.Point(20, 161);
             this.linkLabel.Name = "linkLabel";
             this.linkLabel.Size = new System.Drawing.Size(84, 13);
             this.linkLabel.TabIndex = 43;
@@ -233,7 +246,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(302, 186);
+            this.ClientSize = new System.Drawing.Size(302, 218);
             this.Controls.Add(this.InputPanel);
             this.Controls.Add(this.LB_Running);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -268,6 +281,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox T_InputFOV;
         private System.Windows.Forms.Button B_setFOV;
+        private System.Windows.Forms.CheckBox C_AutoCalculate;
     }
 }
 

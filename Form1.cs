@@ -32,7 +32,8 @@ namespace FovChanger
         int fovAddress = 0x012E3EF4;
         int aspectRatioAddress = 0x012E3EF8;
 
-        bool enablehack;
+        bool enablehack=false;
+        bool autoaspectcalculation=false;
 
         string labelUrl = "www.pcgamingwiki.com";
         string developerURL = "https://www.twitchalerts.com/donate/suicidemachine";
@@ -125,6 +126,12 @@ namespace FovChanger
             }
         }
 
+        void CalculateAspect()
+        {
+            aspectRatio = (1.0f * ResolutionY) /ResolutionX + 0.025f;
+            T_Aspect.Text = aspectRatio.ToString();
+        }
+
         private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(labelUrl);
@@ -144,6 +151,9 @@ namespace FovChanger
 
             if (int.TryParse(T_ResY.Text, out res2))
                 ResolutionY = res2;
+
+            if (autoaspectcalculation)
+                CalculateAspect();
         }
 
         private void B_setAspect_Click(object sender, EventArgs e)
@@ -166,6 +176,23 @@ namespace FovChanger
             var res = 0f;
             if (float.TryParse(T_InputFOV.Text, out res))
                 fov = res;
+        }
+
+        private void C_AutoCalculate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (C_AutoCalculate.Checked)
+            {
+                autoaspectcalculation = true;
+                B_setAspect.Enabled = false;
+                T_Aspect.Enabled = false;
+                CalculateAspect();
+            }
+            else
+            {
+                autoaspectcalculation = false;
+                B_setAspect.Enabled = true;
+                T_Aspect.Enabled = true;
+            }
         }
     }
 }
