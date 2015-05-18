@@ -34,6 +34,7 @@
             this.LB_Running = new System.Windows.Forms.Label();
             this.C_EnableHack = new System.Windows.Forms.CheckBox();
             this.InputPanel = new System.Windows.Forms.Panel();
+            this.C_AutoCalculateFOV = new System.Windows.Forms.CheckBox();
             this.C_AutoCalculate = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.T_Aspect = new System.Windows.Forms.TextBox();
@@ -71,7 +72,7 @@
             // C_EnableHack
             // 
             this.C_EnableHack.AutoSize = true;
-            this.C_EnableHack.Location = new System.Drawing.Point(14, 124);
+            this.C_EnableHack.Location = new System.Drawing.Point(14, 146);
             this.C_EnableHack.Name = "C_EnableHack";
             this.C_EnableHack.Size = new System.Drawing.Size(59, 17);
             this.C_EnableHack.TabIndex = 39;
@@ -82,6 +83,7 @@
             // InputPanel
             // 
             this.InputPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.InputPanel.Controls.Add(this.C_AutoCalculateFOV);
             this.InputPanel.Controls.Add(this.C_AutoCalculate);
             this.InputPanel.Controls.Add(this.label5);
             this.InputPanel.Controls.Add(this.T_Aspect);
@@ -100,12 +102,27 @@
             this.InputPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.InputPanel.Location = new System.Drawing.Point(0, 24);
             this.InputPanel.Name = "InputPanel";
-            this.InputPanel.Size = new System.Drawing.Size(302, 195);
+            this.InputPanel.Size = new System.Drawing.Size(302, 209);
             this.InputPanel.TabIndex = 41;
+            // 
+            // C_AutoCalculateFOV
+            // 
+            this.C_AutoCalculateFOV.AutoSize = true;
+            this.C_AutoCalculateFOV.Checked = true;
+            this.C_AutoCalculateFOV.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.C_AutoCalculateFOV.Location = new System.Drawing.Point(14, 123);
+            this.C_AutoCalculateFOV.Name = "C_AutoCalculateFOV";
+            this.C_AutoCalculateFOV.Size = new System.Drawing.Size(201, 17);
+            this.C_AutoCalculateFOV.TabIndex = 57;
+            this.C_AutoCalculateFOV.Text = "Calculate approx. value from degrees";
+            this.C_AutoCalculateFOV.UseVisualStyleBackColor = true;
+            this.C_AutoCalculateFOV.CheckedChanged += new System.EventHandler(this.C_AutoCalculateFOV_CheckedChanged);
             // 
             // C_AutoCalculate
             // 
             this.C_AutoCalculate.AutoSize = true;
+            this.C_AutoCalculate.Checked = true;
+            this.C_AutoCalculate.CheckState = System.Windows.Forms.CheckState.Checked;
             this.C_AutoCalculate.Location = new System.Drawing.Point(14, 100);
             this.C_AutoCalculate.Name = "C_AutoCalculate";
             this.C_AutoCalculate.Size = new System.Drawing.Size(152, 17);
@@ -126,6 +143,7 @@
             // 
             // T_Aspect
             // 
+            this.T_Aspect.Enabled = false;
             this.T_Aspect.Location = new System.Drawing.Point(91, 70);
             this.T_Aspect.Name = "T_Aspect";
             this.T_Aspect.Size = new System.Drawing.Size(136, 20);
@@ -135,6 +153,7 @@
             // 
             // B_setAspect
             // 
+            this.B_setAspect.Enabled = false;
             this.B_setAspect.Location = new System.Drawing.Point(237, 68);
             this.B_setAspect.Name = "B_setAspect";
             this.B_setAspect.Size = new System.Drawing.Size(44, 23);
@@ -207,7 +226,7 @@
             this.T_InputFOV.Name = "T_InputFOV";
             this.T_InputFOV.Size = new System.Drawing.Size(136, 20);
             this.T_InputFOV.TabIndex = 45;
-            this.T_InputFOV.Text = "0.75";
+            this.T_InputFOV.Text = "90";
             this.T_InputFOV.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // B_setFOV
@@ -223,7 +242,7 @@
             // DeveloperButton
             // 
             this.DeveloperButton.Image = global::FovChanger.Properties.Resources.donatebutton;
-            this.DeveloperButton.Location = new System.Drawing.Point(156, 157);
+            this.DeveloperButton.Location = new System.Drawing.Point(171, 168);
             this.DeveloperButton.Name = "DeveloperButton";
             this.DeveloperButton.Size = new System.Drawing.Size(74, 21);
             this.DeveloperButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -234,7 +253,7 @@
             // linkLabel
             // 
             this.linkLabel.AutoSize = true;
-            this.linkLabel.Location = new System.Drawing.Point(20, 161);
+            this.linkLabel.Location = new System.Drawing.Point(35, 172);
             this.linkLabel.Name = "linkLabel";
             this.linkLabel.Size = new System.Drawing.Size(84, 13);
             this.linkLabel.TabIndex = 43;
@@ -246,7 +265,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(302, 218);
+            this.ClientSize = new System.Drawing.Size(302, 225);
             this.Controls.Add(this.InputPanel);
             this.Controls.Add(this.LB_Running);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -282,6 +301,7 @@
         private System.Windows.Forms.TextBox T_InputFOV;
         private System.Windows.Forms.Button B_setFOV;
         private System.Windows.Forms.CheckBox C_AutoCalculate;
+        private System.Windows.Forms.CheckBox C_AutoCalculateFOV;
     }
 }
 

@@ -33,7 +33,8 @@ namespace FovChanger
         int aspectRatioAddress = 0x012E3EF8;
 
         bool enablehack=false;
-        bool autoaspectcalculation=false;
+        bool autoaspectcalculation=true;
+        bool autofovcalculation = true;
 
         string labelUrl = "www.pcgamingwiki.com";
         string developerURL = "https://www.twitchalerts.com/donate/suicidemachine";
@@ -175,7 +176,28 @@ namespace FovChanger
         {
             var res = 0f;
             if (float.TryParse(T_InputFOV.Text, out res))
-                fov = res;
+            {
+                if (autofovcalculation) 
+                {
+                    if (res > 111.0f)
+                    {
+                        res = 110.0f;
+                        MessageBox.Show("Value too big (max value is 110 degrees)!\nSetting the value to 110.0.", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        T_InputFOV.Text = res.ToString();
+                    }
+                    else if (res < 45.0f)
+                    {
+                        res = 45.0f;
+                        MessageBox.Show("Value too small (min value is 45 degrees)!\nSetting the value to 45.0.", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        T_InputFOV.Text = res.ToString();
+                    }
+                    fov = Convert.ToSingle((0.0002777 * (res * res)) - (0.05833 * res) + 3.5);              //Again, approximate - function that I got from solving quadratic equation from points
+                }
+                else
+                {
+                    fov = res;
+                }
+            }
         }
 
         private void C_AutoCalculate_CheckedChanged(object sender, EventArgs e)
@@ -192,6 +214,22 @@ namespace FovChanger
                 autoaspectcalculation = false;
                 B_setAspect.Enabled = true;
                 T_Aspect.Enabled = true;
+            }
+        }
+
+        private void C_AutoCalculateFOV_CheckedChanged(object sender, EventArgs e)
+        {
+            if(C_AutoCalculateFOV.Checked)
+            {
+                autofovcalculation = true;
+                T_InputFOV.Text = "90";
+                fov = 0.58f;
+            }
+            else
+            {
+                autofovcalculation = false;
+                T_InputFOV.Text = "0.75";
+                fov = 0.75f;
             }
         }
     }
