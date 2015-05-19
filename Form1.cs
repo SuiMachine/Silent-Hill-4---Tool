@@ -17,8 +17,8 @@ namespace FovChanger
         Process[] myProcess;
         string processName;
 
-        int ResolutionX = 1280;
-        int ResolutionY = 720;
+        int ResolutionX = 0;
+        int ResolutionY = 0;
         float fov = 0.75f;
         float aspectRatio = 0.59f;
 
@@ -32,9 +32,11 @@ namespace FovChanger
         int fovAddress = 0x012E3EF4;
         int aspectRatioAddress = 0x012E3EF8;
 
-        bool enablehack=false;
-        bool autoaspectcalculation=true;
+        bool enablehack = false;
+        bool autoaspectcalculation = true;
         bool autofovcalculation = true;
+        bool displayvalueswrite = false;
+        bool readresolutionfrommemory = true;
 
         string labelUrl = "www.pcgamingwiki.com";
         string developerURL = "https://www.twitchalerts.com/donate/suicidemachine";
@@ -81,7 +83,14 @@ namespace FovChanger
                     readAspectRatio = Trainer.ReadFloat(processName, aspectRatioAddress);
 
                     if (enablehack)
-                        WriteToGamesMemory();
+                        WriteFovToMemory();
+
+                    if (readresolutionfrommemory)
+                        readgameresolution();
+
+                    if (displayvalueswrite)
+                        writedisplayvaluestomemory();
+                        
                 }
                 else
                 {
@@ -108,22 +117,47 @@ namespace FovChanger
             Timer.Start();
         }
 
-        void WriteToGamesMemory()
+        void WriteFovToMemory()
         {
+            if(foundProcess)
+            {             
+                if(readFov != fov && !float.IsNaN(fov) && readFov!=0)
+                    Trainer.WriteFloat(processName, fovAddress, fov);
+            }
+        }
 
+        void writedisplayvaluestomemory()
+        {
+            if(foundProcess)
+            {
+                if (!readresolutionfrommemory)
+                {
+                    if (ResolutionX != readResX || ResolutionY != readResY)
+                    {
+                        Trainer.WriteInteger(processName, ResXAdresss, ResolutionX);
+                        Trainer.WriteInteger(processName, ResYAdresss, ResolutionY);
+                    }
+                }
+
+                if (readAspectRatio != aspectRatio && !float.IsNaN(aspectRatio) && readFov != 0)
+                    Trainer.WriteFloat(processName, aspectRatioAddress, aspectRatio);
+            }
+        }
+
+        void readgameresolution()
+        {
             if(foundProcess)
             {
                 if (ResolutionX != readResX || ResolutionY != readResY)
                 {
-                    Trainer.WriteInteger(processName, ResXAdresss, ResolutionX);
-                    Trainer.WriteInteger(processName, ResYAdresss, ResolutionY);
-                }
-                
-                if(readFov != fov && !float.IsNaN(fov) && readFov!=0)
-                    Trainer.WriteFloat(processName, fovAddress, fov);
+                    ResolutionX = readResX;
+                    ResolutionY = readResY;
+                    T_ResX.Text = ResolutionX.ToString();
+                    T_ResY.Text = ResolutionY.ToString();
 
-                if (readAspectRatio != aspectRatio && !float.IsNaN(aspectRatio) && readFov != 0)
-                    Trainer.WriteFloat(processName, aspectRatioAddress, aspectRatio);
+                    if (autoaspectcalculation)
+                        CalculateAspect();
+                }
             }
         }
 
@@ -191,7 +225,7 @@ namespace FovChanger
                         MessageBox.Show("Value too small (min value is 45 degrees)!\nSetting the value to 45.0.", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         T_InputFOV.Text = res.ToString();
                     }
-                    fov = Convert.ToSingle((0.0002777 * (res * res)) - (0.05833 * res) + 3.5);              //Again, approximate - function that I got from solving quadratic equation from points
+                    fov = Convert.ToSingle((0.0002777 * (res * res)) - (0.05833 * res) + 3.5);              //Again, approximate - function that I got from solving quadratic equation from 3 points
                 }
                 else
                 {
@@ -230,6 +264,53 @@ namespace FovChanger
                 autofovcalculation = false;
                 T_InputFOV.Text = "0.75";
                 fov = 0.75f;
+            }
+        }
+
+        private void C_ReadGameRes_CheckedChanged(object sender, EventArgs e)
+        {
+            if(C_ReadGameRes.Checked)
+            {
+                readresolutionfrommemory = true;
+                T_ResX.Enabled = false;
+                T_ResY.Enabled = false;
+                B_setRes.Enabled = false;
+                readgameresolution();
+            }
+            else
+            {
+                readresolutionfrommemory = false;
+                T_ResX.Enabled = true;
+                T_ResY.Enabled = true;
+                T_ResX.Text = "1280"; ResolutionX = 1280;
+                T_ResY.Text = "720"; ResolutionY = 720;
+                B_setRes.Enabled = true;
+            }
+        }
+
+        private void C_ResAndAspectWriteEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            if(C_ResAndAspectWriteEnable.Checked)
+            {
+                displayvalueswrite = true;
+            }
+            else
+            {
+                displayvalueswrite = false;
+            }
+        }
+
+        private void C_UseAlternativeAdress_CheckedChanged(object sender, EventArgs e)
+        {
+            if(C_UseAlternativeAdress.Checked)
+            {
+                fovAddress = 0x012E3E74;
+                aspectRatio = 0x012E3E78;
+            }
+            else
+            {
+                fovAddress = 0x012E3EF4;
+                aspectRatioAddress = 0x012E3EF8;
             }
         }
     }
