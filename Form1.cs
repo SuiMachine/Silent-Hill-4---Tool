@@ -60,16 +60,22 @@ namespace FovChanger
                 myProcess = Process.GetProcessesByName(processName);
                 if (myProcess.Length > 0)
                 {
-                    if (foundProcess == false)
+                    if (foundProcess == false || baseAddress == 0x0)
+                    {
                         System.Threading.Thread.Sleep(100);
+                        IntPtr startOffset = myProcess[0].MainModule.BaseAddress;
+                        IntPtr endOffset = IntPtr.Add(startOffset, myProcess[0].MainModule.ModuleMemorySize);
+                        baseAddress = startOffset.ToInt32();
+                    }
 
-                    IntPtr startOffset = myProcess[0].MainModule.BaseAddress;
-                    IntPtr endOffset = IntPtr.Add(startOffset, myProcess[0].MainModule.ModuleMemorySize);
-                    baseAddress = startOffset.ToInt32();
                     foundProcess = true;
                 }
                 else
+                {
                     foundProcess = false;
+                    baseAddress = 0x0;
+                }
+
 
                 if (foundProcess)
                 {
@@ -77,10 +83,10 @@ namespace FovChanger
                     LB_Running.Text = "SILENT HILL 4 IS RUNNING";
                     LB_Running.ForeColor = Color.Green;
 
-                    readResX = Trainer.ReadInteger(processName, ResXAdresss);
-                    readResY = Trainer.ReadInteger(processName, ResYAdresss);
-                    readFov = Trainer.ReadFloat(processName, fovAddress);
-                    readAspectRatio = Trainer.ReadFloat(processName, aspectRatioAddress);
+                    readResX = Trainer.ReadInteger(myProcess, ResXAdresss);
+                    readResY = Trainer.ReadInteger(myProcess, ResYAdresss);
+                    readFov = Trainer.ReadFloat(myProcess, fovAddress);
+                    readAspectRatio = Trainer.ReadFloat(myProcess, aspectRatioAddress);
 
                     if (enablehack)
                         WriteFovToMemory();
@@ -122,7 +128,7 @@ namespace FovChanger
             if(foundProcess)
             {             
                 if(readFov != fov && !float.IsNaN(fov) && readFov!=0)
-                    Trainer.WriteFloat(processName, fovAddress, fov);
+                    Trainer.WriteFloat(myProcess, fovAddress, fov);
             }
         }
 
@@ -134,13 +140,13 @@ namespace FovChanger
                 {
                     if (ResolutionX != readResX || ResolutionY != readResY)
                     {
-                        Trainer.WriteInteger(processName, ResXAdresss, ResolutionX);
-                        Trainer.WriteInteger(processName, ResYAdresss, ResolutionY);
+                        Trainer.WriteInteger(myProcess, ResXAdresss, ResolutionX);
+                        Trainer.WriteInteger(myProcess, ResYAdresss, ResolutionY);
                     }
                 }
 
                 if (readAspectRatio != aspectRatio && !float.IsNaN(aspectRatio) && readFov != 0)
-                    Trainer.WriteFloat(processName, aspectRatioAddress, aspectRatio);
+                    Trainer.WriteFloat(myProcess, aspectRatioAddress, aspectRatio);
             }
         }
 
